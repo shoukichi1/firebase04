@@ -4,7 +4,8 @@
 
 ## DEMO
 
-  - 
+  - https://shoukichi1.github.io/firebase04/
+  ※api keyを削除しているので動かない
 
 ## 紹介
 
@@ -33,4 +34,5 @@
 
 ## 参考にした web サイトなど
 
-  - 後で見返せるように
+  - Cloud Firestore からデータを削除する
+  https://firebase.google.com/docs/firestore/manage-data/delete-data?hl=ja#:~:text=%E7%A4%BA%E3%81%97%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99%E3%80%82-,%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88%E3%82%92%E5%89%8A%E9%99%A4%E3%81%99%E3%82%8B,%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%BE%E3%81%99%E3%80%82&text=deleteDoc()%20%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%BE%E3%81%99%E3%80%82&text=delete()%20%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%BE%E3%81%99%E3%80%82,-db.

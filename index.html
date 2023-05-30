@@ -215,7 +215,7 @@
         // これはgithubにはあげないように注意する
         const firebaseConfig = {
             // ここは非表示
-
+            
         };
 
 
@@ -279,6 +279,7 @@
              <li id="${document.id}">
                 <p>${document.data.name} ${document.data.gram}g</p>
                 <p>${document.data.text}</p>
+                <button class="delete-btn" data-id="${document.id}">削除</button>
             </li>
             `);
             });
@@ -333,6 +334,7 @@
              <li id="${document.id}">
                 <p>${document.data.name} ${document.data.gram}g</p>
                 <p>${document.data.text}</p>
+                <button class="delete-btn" data-id="${document.id}">削除</button>
             </li>
             `);
 
@@ -388,6 +390,7 @@
              <li id="${document.id}">
                 <p>${document.data.name} ${document.data.gram}g</p>
                 <p>${document.data.text}</p>
+                <button class="delete-btn" data-id="${document.id}">削除</button>
             </li>
             `);
             });
@@ -441,6 +444,7 @@
              <li id="${document.id}">
                 <p>${document.data.name} ${document.data.gram}g</p>
                 <p>${document.data.text}</p>
+                <button class="delete-btn" data-id="${document.id}">削除</button>
             </li>
             `);
             });
@@ -481,6 +485,7 @@
              <li id="${document.id}">
                 <p>${document.data.name} ${document.data.gram}g</p>
                 <p>${document.data.text}</p>
+                <button class="delete-btn" data-id="${document.id}">削除</button>
             </li>
             `);
             });
@@ -532,6 +537,7 @@
              <li id="${document.id}">
                 <p>${document.data.name} ${document.data.gram}g</p>
                 <p>${document.data.text}</p>
+                <button class="delete-btn" data-id="${document.id}">削除</button>
             </li>
             `);
             });
@@ -583,6 +589,7 @@
              <li id="${document.id}">
                 <p>${document.data.name} ${document.data.gram}g</p>
                 <p>${document.data.text}</p>
+                <button class="delete-btn" data-id="${document.id}">削除</button>
             </li>
             `);
                 //   <p>${document.data.kind}</p>
@@ -636,6 +643,7 @@
              <li id="${document.id}">
                 <p>${document.data.name} ${document.data.gram}g</p>
                 <p>${document.data.text}</p>
+                <button class="delete-btn" data-id="${document.id}">削除</button>
             </li>
             `);
             });
@@ -729,9 +737,24 @@
             });
 
             // 合計のgram数を表示
-            $("#gram-select_total").text(totalGrams + "g");
+            $("#gram-select_total").text(`Total  ${totalGrams}g`);
         });
 
+
+        // --------------------------------------------------------------------
+        // ④削除ボタンをクリックするとダイアログが表示されて、OKを選択するとFirebaseからドキュメントが削除される
+        // --------------------------------------------------------------------
+
+        $(document).on("click", ".delete-btn", async function () {
+            // ボタンのdata-id属性からドキュメントのidを取得
+            const documentId = $(this).data("id");
+
+            // ユーザに削除の確認を求める
+            if (confirm("ギアのデータを削除しますか?")) {
+                // ユーザがOKをクリックした場合、ドキュメントを削除
+                await deleteDoc(doc(db, "gearData", documentId));
+            }
+        });
 
 
 
