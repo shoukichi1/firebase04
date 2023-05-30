@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MEMOアプリ作成</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+
+<body>
+    <header>
+        <h1>pack to go ver.2</h1>
+        <p>~ 軽いは正義 ~</p>
+    </header>
+    <main>
+
+        <!-- 登録フォーム -->
+        <section class="registration">
+            <div class="registration_form">
+                <h2>form</h2>
+                <form action="">
+
+                    <div>
+                        <p>ギアの名称</p>
+                        <input type="text" id="gear_name">
+                    </div>
+                    <div>
+                        <p>ギアの重さ</p>
+
+                        <input type="number" id="gram">
+                    </div>
+                    <div>
+                        <p>ギアの種類</p>
+                        <select name="" id="gear_kind" class="gear_kind">
+                            <option value="head_gear">head gear</option>
+                            <option value="base_layer">base layer</option>
+                            <option value="middle_layer">middle layer</option>
+                            <option value="outer">outer</option>
+                            <option value="bottoms">bottoms</option>
+                            <option value="shoes">shoes</option>
+                            <option value="backpack">backpack</option>
+                            <option value="other">other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <p>ギアの説明</p>
+                        <textarea id="text_area"></textarea>
+                    </div>
+                    <div>
+                        <input type="button" value="登録する" id="registration_btn">
+                        <input type="button" value="クリア" id="clear_btn">
+                    </div>
+                </form>
+            </div>
+
+
+            <!-- 登録されたデータのリスト -->
+
+
+            <div class="registration_list">
+                <h2>gear list</h2>
+                <ul class="list_wrapper">
+                    <li>head gear
+                        <div id="head_gear">
+                            <ul id="headgear_output"></ul>
+                            <p></p>
+                        </div>
+                    </li>
+                    <li>base layer
+                        <div id="base_layer">
+                            <ul id="base_layer_output"></ul>
+                            <p></p>
+                        </div>
+                    </li>
+                    <li>middle layer
+                        <div id="middle_layer">
+                            <ul id="middle_layer_output"></ul>
+                            <p></p>
+                        </div>
+                    </li>
+                    <li>outer
+                        <div id="outer">
+                            <ul id="outer_output"></ul>
+                            <p></p>
+                        </div>
+                    </li>
+                    <li>bottoms
+                        <div id="bottoms">
+                            <ul id="bottoms_output"></ul>
+                            <p></p>
+                        </div>
+                    </li>
+                    <li>shoes
+                        <div id="shoes">
+                            <ul id="shoes_output"></ul>
+                            <p></p>
+                        </div>
+                    </li>
+                    <li>backpack
+                        <div id="backpack">
+                            <ul id="backpack_output"></ul>
+                            <p></p>
+                        </div>
+                    </li>
+                    <li>other
+                        <div id="other">
+                            <ul id="other_output"></ul>
+                            <p></p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="selectarea">
+                <h2>gear select</h2>
+                <div>
+                    <p>head gear</p>
+                    <select name="" id="headgear_select_output" data-kind="head_gear"></select>
+                    <span class="gram-select" data-kind="head_gear"></span>
+
+                </div>
+                <div>
+                    <p>base layer</p>
+                    <select name="" id="base_layer_select_output" data-kind="base_layer"></select>
+                    <span class="gram-select" data-kind="base_layer"></span>
+
+                </div>
+                <div>
+                    <p>middle layer</p>
+                    <select name="" id="middle_layer_select_output" data-kind="middle_layer"></select>
+                    <span class="gram-select" data-kind="middle_layer"></span>
+
+                </div>
+                <div>
+                    <p>outer</p>
+
+                    <select name="" id="outer_select_output" data-kind="outer"></select>
+                    <span class="gram-select" data-kind="outer"></span>
+
+                </div>
+                <div>
+                    <p>bottoms</p>
+
+                    <select name="" id="bottoms_select_output" data-kind="bottoms"></select>
+                    <span class="gram-select" data-kind="bottoms"></span>
+
+                </div>
+                <div>
+                    <p>shoes</p>
+
+                    <select name="" id="shoes_select_output" data-kind="shoes"></select>
+                    <span class="gram-select" data-kind="shoes"></span>
+
+                </div>
+                <div>
+                    <p>backpack</p>
+                    <select name="" id="backpack_select_output" data-kind="backpack"></select>
+                    <span class="gram-select" data-kind="bagpack"></span>
+
+                </div>
+                <div>
+                    <p>other</p>
+                    <select name="" id="other_select_output" data-kind="other"></select>
+                    <span class="gram-select" data-kind="other"></span>
+
+                </div>
+
+                <div id="gram-select_total"></div>
+            </div>
+
+        </section>
+
+
+
+
+
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        // 日時をいい感じの形式にする関数
+        function convertTimestampToDatetime(timestamp) {
+            const _d = timestamp ? new Date(timestamp * 1000) : new Date();
+            const Y = _d.getFullYear();
+            const m = (_d.getMonth() + 1).toString().padStart(2, '0');
+            const d = _d.getDate().toString().padStart(2, '0');
+            const H = _d.getHours().toString().padStart(2, '0');
+            const i = _d.getMinutes().toString().padStart(2, '0');
+            const s = _d.getSeconds().toString().padStart(2, '0');
+            return `${Y}/${m}/${d} ${H}:${i}:${s}`;
+        }
+    </script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import {
+            getFirestore,
+            collection,
+            doc,
+            deleteDoc,
+            addDoc,
+            serverTimestamp,
+            query,
+            orderBy,
+            onSnapshot,
+            where,
+        } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+        // これはgithubにはあげないように注意する
+        const firebaseConfig = {
+            // ここは非表示
+
+        };
+
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+
+
+        // --------------------------------------------------------------------
+        // ①登録ボタンを押したら、データをFirebaseに保存する
+        // --------------------------------------------------------------------
+
+        $("#registration_btn").on("click", function () {
+
+            // 値を代入する
+            const gearData = {
+                name: $("#gear_name").val(),
+                gram: $("#gram").val(),
+                kind: $("#gear_kind").val(),
+                text: $("#text_area").val(),
+            };
+
+            addDoc(collection(db, "gearData"), gearData);
+            $("#gear_name").val("");
+            $("#gram").val("");
+            $("#gear_kind").val("");
+            $("#text_area").val("");
+
+        });
+
+
+        // --------------------------------------------------------------------
+        // ②登録した内容がkindごとにgear listに表示される
+        // --------------------------------------------------------------------
+
+        // gearDataの指定場所をまとめる
+        const dbPlace = collection(db, "gearData")
+
+        // headgearの値をもつドキュメントを呼ぶクエリ
+        const headgeardbPlace = query(dbPlace, where("kind", "==", "head_gear"));
+
+        onSnapshot(headgeardbPlace, (querySnapshot) => {
+            const documents = [];
+
+            // 繰り返し処理の形
+            // list.forEach(function (x) {
+            //   console.log(x);
+            // });
+
+            querySnapshot.docs.forEach(function (doc) {
+                const document = {
+                    id: doc.id,
+                    data: doc.data(),
+                };
+                documents.push(document)
+            });
+
+            const htmlElements = [];
+            documents.forEach(function (document) {
+                htmlElements.push(`
+             <li id="${document.id}">
+                <p>${document.data.name} ${document.data.gram}g</p>
+                <p>${document.data.text}</p>
+            </li>
+            `);
+            });
+
+            $("#headgear_output").html(htmlElements);
+
+            // セレクトボックス選択肢にnameとgramを追加する
+            const selectElements = ['<option value=""></option>'];
+            documents.forEach(function (document) {
+                selectElements.push(`
+            <option id="${document.id}">${document.data.name} ${document.data.gram}g</option>
+            `);
+
+            });
+
+            $("#headgear_select_output").html(selectElements);
+
+            // セレクトボックスの横にgを表示する
+            $("#headgear_select_output").change(function () {
+                // 選択されたオプションのidを取得
+                const selectedOptionId = $(this).children("option:selected").attr("id");
+
+                // 選択されたオプションのgram数を取得
+                const selectedGram = documents.find(document => document.id === selectedOptionId).data.gram;
+
+                // 取得したgram数を表示
+                $('.gram-select[data-kind="head_gear"]').text(selectedGram + "g");
+            });
+
+
+        });
+
+
+        // base_layerの値をもつドキュメントを呼ぶクエリ
+        const baselayerdbPlace = query(dbPlace, where("kind", "==", "base_layer"));
+
+        onSnapshot(baselayerdbPlace, (querySnapshot) => {
+            const documents = [];
+
+            querySnapshot.docs.forEach(function (doc) {
+                const document = {
+                    // この辺りは決まっている？
+                    id: doc.id,
+                    data: doc.data(),
+                };
+                documents.push(document)
+            });
+
+            const htmlElements = [];
+            documents.forEach(function (document) {
+                htmlElements.push(`
+             <li id="${document.id}">
+                <p>${document.data.name} ${document.data.gram}g</p>
+                <p>${document.data.text}</p>
+            </li>
+            `);
+
+            });
+
+            $("#base_layer_output").html(htmlElements);
+
+
+            // セレクトボックス選択肢にnameとgramを追加する
+            const selectElements = ['<option value=""></option>'];
+            documents.forEach(function (document) {
+                selectElements.push(`
+            <option id="${document.id}">${document.data.name} ${document.data.gram}g</option>
+            `);
+
+            });
+
+            $("#base_layer_select_output").html(selectElements);
+
+            // セレクトボックスの横にgを表示する
+            $("#base_layer_select_output").change(function () {
+                // 選択されたオプションのidを取得
+                const selectedOptionId = $(this).children("option:selected").attr("id");
+
+                // 選択されたオプションのgram数を取得
+                const selectedGram = documents.find(document => document.id === selectedOptionId).data.gram;
+
+                // 取得したgram数を表示
+                $('.gram-select[data-kind="base_layer"]').text(selectedGram + "g");
+            });
+
+
+        });
+
+        // middle_layerの値をもつドキュメントを呼ぶクエリ
+        const middlelayerdbPlace = query(dbPlace, where("kind", "==", "middle_layer"));
+
+        onSnapshot(middlelayerdbPlace, (querySnapshot) => {
+            const documents = [];
+
+            querySnapshot.docs.forEach(function (doc) {
+                const document = {
+                    // この辺りは決まっている？
+                    id: doc.id,
+                    data: doc.data(),
+                };
+                documents.push(document)
+            });
+
+            const htmlElements = [];
+            documents.forEach(function (document) {
+                htmlElements.push(`
+             <li id="${document.id}">
+                <p>${document.data.name} ${document.data.gram}g</p>
+                <p>${document.data.text}</p>
+            </li>
+            `);
+            });
+
+            $("#middle_layer_output").html(htmlElements);
+
+            // セレクトボックス選択肢にnameとgramを追加する
+            const selectElements = ['<option value=""></option>'];
+            documents.forEach(function (document) {
+                selectElements.push(`
+            <option id="${document.id}">${document.data.name} ${document.data.gram}g</option>
+            `);
+
+            });
+
+            $("#middle_layer_select_output").html(selectElements);
+
+            // セレクトボックスの横にgを表示する
+            $("#middle_layer_select_output").change(function () {
+                // 選択されたオプションのidを取得
+                const selectedOptionId = $(this).children("option:selected").attr("id");
+
+                // 選択されたオプションのgram数を取得
+                const selectedGram = documents.find(document => document.id === selectedOptionId).data.gram;
+
+                // 取得したgram数を表示
+                $('.gram-select[data-kind="middle_layer"]').text(selectedGram + "g");
+            });
+
+
+        });
+
+        // outerの値をもつドキュメントを呼ぶクエリ
+        const outerdbPlace = query(dbPlace, where("kind", "==", "outer"));
+
+        onSnapshot(outerdbPlace, (querySnapshot) => {
+            const documents = [];
+
+            querySnapshot.docs.forEach(function (doc) {
+                const document = {
+                    // この辺りは決まっている？
+                    id: doc.id,
+                    data: doc.data(),
+                };
+                documents.push(document)
+            });
+
+            const htmlElements = [];
+            documents.forEach(function (document) {
+                htmlElements.push(`
+             <li id="${document.id}">
+                <p>${document.data.name} ${document.data.gram}g</p>
+                <p>${document.data.text}</p>
+            </li>
+            `);
+            });
+
+            $("#outer_output").html(htmlElements);
+
+            // セレクトボックス選択肢にnameとgramを追加する
+            const selectElements = ['<option value=""></option>'];
+            documents.forEach(function (document) {
+                selectElements.push(`
+            <option id="${document.id}">${document.data.name} ${document.data.gram}g</option>
+            `);
+
+            });
+
+            $("#outer_select_output").html(selectElements);
+
+        });
+
+        // bottomsの値をもつドキュメントを呼ぶクエリ
+        const bottomsdbPlace = query(dbPlace, where("kind", "==", "bottoms"));
+
+        onSnapshot(bottomsdbPlace, (querySnapshot) => {
+            const documents = [];
+
+            querySnapshot.docs.forEach(function (doc) {
+                const document = {
+                    // この辺りは決まっている？
+                    id: doc.id,
+                    data: doc.data(),
+                };
+                documents.push(document)
+            });
+
+            const htmlElements = [];
+            documents.forEach(function (document) {
+                htmlElements.push(`
+             <li id="${document.id}">
+                <p>${document.data.name} ${document.data.gram}g</p>
+                <p>${document.data.text}</p>
+            </li>
+            `);
+            });
+
+            $("#bottoms_output").html(htmlElements);
+
+            // セレクトボックス選択肢にnameとgramを追加する
+            const selectElements = ['<option value=""></option>'];
+            documents.forEach(function (document) {
+                selectElements.push(`
+            <option id="${document.id}">${document.data.name} ${document.data.gram}g</option>
+            `);
+            });
+
+            $("#bottoms_select_output").html(selectElements);
+
+            // セレクトボックスの横にgを表示する
+            $("#bottoms_select_output").change(function () {
+                // 選択されたオプションのidを取得
+                const selectedOptionId = $(this).children("option:selected").attr("id");
+
+                // 選択されたオプションのgram数を取得
+                const selectedGram = documents.find(document => document.id === selectedOptionId).data.gram;
+
+                // 取得したgram数を表示
+                $('.gram-select[data-kind="bottoms"]').text(selectedGram + "g");
+            });
+
+        });
+
+        // shoesの値をもつドキュメントを呼ぶクエリ
+        const shoesdbPlace = query(dbPlace, where("kind", "==", "shoes"));
+
+        onSnapshot(shoesdbPlace, (querySnapshot) => {
+            const documents = [];
+
+            querySnapshot.docs.forEach(function (doc) {
+                const document = {
+                    // この辺りは決まっている？
+                    id: doc.id,
+                    data: doc.data(),
+                };
+                documents.push(document)
+            });
+
+            const htmlElements = [];
+            documents.forEach(function (document) {
+                htmlElements.push(`
+             <li id="${document.id}">
+                <p>${document.data.name} ${document.data.gram}g</p>
+                <p>${document.data.text}</p>
+            </li>
+            `);
+            });
+
+            $("#shoes_output").html(htmlElements);
+
+            // セレクトボックス選択肢にnameとgramを追加する
+            const selectElements = ['<option value=""></option>'];
+            documents.forEach(function (document) {
+                selectElements.push(`
+            <option id="${document.id}">${document.data.name} ${document.data.gram}g</option>
+            `);
+            });
+
+            $("#shoes_select_output").html(selectElements);
+
+            // セレクトボックスの横にgを表示する
+            $("#shoes_select_output").change(function () {
+                // 選択されたオプションのidを取得
+                const selectedOptionId = $(this).children("option:selected").attr("id");
+
+                // 選択されたオプションのgram数を取得
+                const selectedGram = documents.find(document => document.id === selectedOptionId).data.gram;
+
+                // 取得したgram数を表示
+                $('.gram-select[data-kind="shoes"]').text(selectedGram + "g");
+            });
+
+        });
+
+        // backpackの値をもつドキュメントを呼ぶクエリ
+        const backpackdbPlace = query(dbPlace, where("kind", "==", "backpack"));
+
+        onSnapshot(backpackdbPlace, (querySnapshot) => {
+            const documents = [];
+
+            querySnapshot.docs.forEach(function (doc) {
+                const document = {
+                    // この辺りは決まっている？
+                    id: doc.id,
+                    data: doc.data(),
+                };
+                documents.push(document)
+            });
+
+            const htmlElements = [];
+            documents.forEach(function (document) {
+                htmlElements.push(`
+             <li id="${document.id}">
+                <p>${document.data.name} ${document.data.gram}g</p>
+                <p>${document.data.text}</p>
+            </li>
+            `);
+                //   <p>${document.data.kind}</p>
+
+            });
+
+            $("#backpack_output").html(htmlElements);
+
+            // セレクトボックス選択肢にnameとgramを追加する
+            const selectElements = ['<option value=""></option>'];
+            documents.forEach(function (document) {
+                selectElements.push(`
+            <option id="${document.id}">${document.data.name} ${document.data.gram}g</option>
+            `);
+            });
+
+            $("#backpack_select_output").html(selectElements);
+
+            // セレクトボックスの横にgを表示する
+            $("#backpack_select_output").change(function () {
+                // 選択されたオプションのidを取得
+                const selectedOptionId = $(this).children("option:selected").attr("id");
+
+                // 選択されたオプションのgram数を取得
+                const selectedGram = documents.find(document => document.id === selectedOptionId).data.gram;
+
+                // 取得したgram数を表示
+                $('.gram-select[data-kind="backpack"]').text(selectedGram + "g");
+            });
+
+        });
+
+        // otherの値をもつドキュメントを呼ぶクエリ
+        const otherdbPlace = query(dbPlace, where("kind", "==", "other"));
+
+        onSnapshot(otherdbPlace, (querySnapshot) => {
+            const documents = [];
+
+            querySnapshot.docs.forEach(function (doc) {
+                const document = {
+                    // この辺りは決まっている？
+                    id: doc.id,
+                    data: doc.data(),
+                };
+                documents.push(document)
+            });
+
+            const htmlElements = [];
+            documents.forEach(function (document) {
+                htmlElements.push(`
+             <li id="${document.id}">
+                <p>${document.data.name} ${document.data.gram}g</p>
+                <p>${document.data.text}</p>
+            </li>
+            `);
+            });
+
+            $("#other_output").html(htmlElements);
+
+            // セレクトボックス選択肢にnameとgramを追加する
+            const selectElements = ['<option value=""></option>'];
+            documents.forEach(function (document) {
+                selectElements.push(`
+            <option id="${document.id}">${document.data.name} ${document.data.gram}g</option>
+            `);
+            });
+
+            $("#other_select_output").html(selectElements);
+
+            // セレクトボックスの横にgを表示する
+            $("#other_select_output").change(function () {
+                // 選択されたオプションのidを取得
+                const selectedOptionId = $(this).children("option:selected").attr("id");
+
+                // 選択されたオプションのgram数を取得
+                const selectedGram = documents.find(document => document.id === selectedOptionId).data.gram;
+
+                // 取得したgram数を表示
+                $('.gram-select[data-kind="other"]').text(selectedGram + "g");
+            });
+
+        });
+
+
+
+        // --------------------------------------------------------------------
+        // ③登録されたものがkindことのセレクトボックスに表示される
+        // --------------------------------------------------------------------
+
+        // 各種類のkindに対応する配列
+        const documentsData = {
+            head_gear: [],
+            base_layer: [],
+            middle_layer: [],
+            outer: [],
+            bottoms: [],
+            shoes: [],
+            backpack: [],
+            other: []
+        };
+
+        // 各種類のkindに対応するクエリ
+        for (let kind in documentsData) {
+            const dbPlaceForKind = query(dbPlace, where("kind", "==", kind));
+
+            onSnapshot(dbPlaceForKind, (querySnapshot) => {
+                const documents = [];
+
+                querySnapshot.docs.forEach(function (doc) {
+                    const document = {
+                        id: doc.id,
+                        data: doc.data(),
+                    };
+                    documents.push(document);
+                });
+
+                // 更新したドキュメントデータを保存
+                documentsData[kind] = documents;
+            });
+        }
+
+        $('select').change(function () {
+            // 各セレクトボックスごとに処理を行う
+            let totalGrams = 0;
+            $('select').each(function () {
+                // 選択されたオプションのidを取得
+                const selectedOptionId = $(this).children("option:selected").attr("id");
+
+                // 対応するkindのデータを取得
+                const kind = $(this).data("kind");
+                const documents = documentsData[kind];
+
+                // idが存在する場合のみ処理を行う
+                if (selectedOptionId) {
+                    // 選択されたオプションのgram数を取得
+                    const selectedGram = parseInt(documents.find(document => document.id === selectedOptionId).data.gram, 10);
+
+                    // 取得したgram数を表示
+                    $('.gram-select[data-kind="' + kind + '"]').text(selectedGram + "g");
+
+                    // 合計のgram数を算出
+                    totalGrams += selectedGram;
+                }
+            });
+
+            // 合計のgram数を表示
+            $("#gram-select_total").text(totalGrams + "g");
+        });
+
+
+
+
+    </script>
+
+
+
+</body>
+
+</html>
